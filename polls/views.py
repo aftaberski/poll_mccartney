@@ -4,7 +4,9 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
+from django import forms
 
+from .forms import QuestionForm
 from .models import Choice, Question
 
 
@@ -48,6 +50,20 @@ def vote(request, question_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
+
+# Need to link this!
+def add_question(request):
+
+  if request.method == "POST":
+    form = QuestionForm(request.POST)
+    if form.is_valid():
+      model_instance = form.save(commit=False)
+      model_instance.pub_date = timezone.now()
+      model_instance.save()
+      return redirect('victory')
+    else:
+      form = QuestionForm()
+    return render(request, "my_template.html", 'form':form)
 
 def new(request):
     question = Question(pub_date=timezone.now())
