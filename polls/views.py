@@ -61,13 +61,13 @@ def add_question(request):
       model_instance.pub_date = timezone.now()
       model_instance.save()
       return redirect('victory')
-    else:
-      form = QuestionForm()
-    return render(request, "my_template.html", 'form':form)
+  else:
+    form = QuestionForm()
+  return render(request, "polls/new.html", {'form':form})
 
-def new(request):
-    question = Question(pub_date=timezone.now())
-    return render(request, 'polls/new.html', {'question': question})
+# def new(request):
+#     question = Question(pub_date=timezone.now())
+#     return render(request, 'polls/new.html', {'question': question})
 
 
 
