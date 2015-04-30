@@ -4,5 +4,9 @@
 
 <div class="white-background">
 	<h1>NEW THINGS!</h1>
-  {{ form }}
+  <form method="post" action="add_question">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <br /><input class="button" type="submit" value="Add Question" />
+    </form>
 </div>
