@@ -67,7 +67,7 @@ def add_question(request):
       model_instance = form.save(commit=False)
       model_instance.pub_date = timezone.now()
       model_instance.save()
-      return redirect('index')
+      return HttpResponseRedirect('/polls/')
   else:
     form = QuestionForm()
     return render(request, "polls/new.html", {'form':form})
