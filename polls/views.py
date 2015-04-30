@@ -5,6 +5,9 @@ from django.core.urlresolvers import reverse
 from django.views import generic
 from django.utils import timezone
 from django import forms
+from django.template import RequestContext
+from django.shortcuts import redirect
+
 
 from .forms import QuestionForm
 from .models import Choice, Question
@@ -53,9 +56,13 @@ def vote(request, question_id):
 
 # Need to link this!
 def add_question(request):
+  # Get the context from the request
+  context = RequestContext(request)
 
   if request.method == "POST":
     form = QuestionForm(request.POST)
+
+    # Is the form provided
     if form.is_valid():
       model_instance = form.save(commit=False)
       model_instance.pub_date = timezone.now()
@@ -63,7 +70,7 @@ def add_question(request):
       return redirect('index')
   else:
     form = QuestionForm()
-  return render(request, "polls/new.html", {'form':form})
+    return render(request, "polls/new.html", {'form':form})
 
 # def new(request):
 #     question = Question(pub_date=timezone.now())
